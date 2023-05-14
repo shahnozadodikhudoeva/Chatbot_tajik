@@ -8,13 +8,10 @@ from fuzzywuzzy import fuzz
 from keras.models import load_model
 
 
-
-
 model = load_model('chatbot_model.h5')
 intents = json.loads(open('intents.json').read())
 words = pickle.load(open('words.pkl','rb'))
 classes = pickle.load(open('classes.pkl','rb'))
-
 
 som=[ 'сомона','сомон',  'сом','сомяк','см',  'сомони',
   'несомон',  'скм','см','сма','сми','смк','смн',
@@ -269,7 +266,7 @@ def getResponse(ints, intents_json):
     return result
 
 arrayN=[" "]
-def chatbot_response(msg):
+def chatbot_response(msg, user_id):
     arrayN.append(msg)
     if predict_class(msg,model)!=[]:
         ints = predict_class(msg, model)
@@ -277,4 +274,5 @@ def chatbot_response(msg):
         string=' '.join(arrayN[-2:])
         ints = predict_class(string, model)
     res = getResponse(ints, intents)
+    
     return res
